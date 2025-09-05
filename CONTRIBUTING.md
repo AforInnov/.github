@@ -119,7 +119,13 @@ Le merge de code dans les branches principales déclenche des déploiements sur 
 
 Le déploiement en **Production** est une action **manuelle** à partir de la branche `main`.
 
-## Gestion des Hotfixes
+## Guides
+
+### Configurer les Commits Signés
+
+Si vous n'avez pas de clé GPG existante, vous pouvez [générer une nouvelle clé GPG](https://docs.github.com/fr/authentication/managing-commit-signature-verification/generating-a-new-gpg-key) à utiliser pour signer les commits. Pour [signer les commits localement](https://docs.github.com/fr/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key), vous devez informer Git qu'il y a une clé GPG, SSH ou X.509 que vous souhaitez utiliser. Vous pouvez suivre [ce guide pour configurer les commits signés dans VS Code](https://dev.to/devmount/signed-git-commits-in-vs-code-36do).
+
+### Gestion des Hotfixes 🔥
 
 Pour les bugs critiques en production, le workflow standard est trop lent. Voici la procédure d'urgence à suivre :
 
@@ -132,7 +138,7 @@ Pour les bugs critiques en production, le workflow standard est trop lent. Voici
 
 2. **Travaillez sur la correction** et faites vos commits comme d'habitude.
 
-3. **Créez une Pull Request** de votre branche `hotfix/*` vers `main`. Le titre doit inclure le numéro de ticket Jira si applicable (format suggéré : `[TICKET-456] Fix critical login issue`). Le processus de validation (CI, revue) reste obligatoire mais doit être traité en priorité absolue.
+3. **Créez une Pull Request** de votre branche `hotfix/*` vers `main`. Le processus de validation (CI, revue) reste obligatoire mais doit être traité en priorité absolue.
 
 4. **Déployez en production** une fois la PR fusionnée dans main.
 
