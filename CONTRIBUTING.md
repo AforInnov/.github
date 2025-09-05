@@ -28,9 +28,8 @@ Toute contribution commence par la création d'une branche à partir de la versi
 
 **Convention de Nommage des Branches :**
     
-Le nom de votre branche doit être clair et suivre ce format : `type/reference-description-courte`
+Le nom de votre branche doit être clair et suivre ce format : `type/description-courte`
 - type: feature, fix, chore, docs...
-- reference: [numéro du ticket Jira](https://support.atlassian.com/jira-cloud-administration/docs/use-the-github-for-jira-app/) si applicable (ex: TICKET-123).
 - description-courte: Un résumé concis en kebab-case (mots séparés par des tirets).
 
 **Exemple :**
@@ -41,7 +40,7 @@ git checkout dev
 git pull --rebase origin dev
 
 # 2. Créez votre nouvelle branche
-git checkout -b feature/TICKET-123-nouvelle-authentification
+git checkout -b feature/nouvelle-authentification
 ```
 
 ### 2. Développement et Commits 
@@ -92,7 +91,7 @@ Une fois votre fonctionnalité terminée et votre branche à jour :
 1. **Poussez votre branche** sur le dépôt distant :
 
 ```bash
-git push origin feature/TICKET-123-ma-nouvelle-fonctionnalite
+git push origin feature/ma-nouvelle-fonctionnalite
 ```
 
 > **⚠️ Attention au `push --force`**
@@ -101,9 +100,11 @@ git push origin feature/TICKET-123-ma-nouvelle-fonctionnalite
 
 2. **Créez une Pull Request** sur GitHub vers la branche `dev`.
 
-3. **Rédigez une description claire** : Décrivez ce que vous avez fait, pourquoi et comment le tester.
+3. **Titre de la PR** : Le titre doit inclure le [numéro du ticket Jira](https://support.atlassian.com/jira-cloud-administration/docs/use-the-github-for-jira-app/) si applicable. Format suggéré : `[TICKET-123] Description de la fonctionnalité`
 
-4. **Validation** : Une PR ne peut être mergée que si deux conditions sont remplies :
+4. **Rédigez une description claire** : Décrivez ce que vous avez fait, pourquoi et comment le tester.
+
+5. **Validation** : Une PR ne peut être mergée que si deux conditions sont remplies :
 
     - ✅ **Tests Automatisés (CI)** : Tous les tests (unitaires, intégration...) doivent réussir.
     - ✅ **Validation (Code Review)** : Au moins un autre développeur doit relire votre code et l'approuver (à l'exception de la branche `dev`).
@@ -126,20 +127,13 @@ Pour les bugs critiques en production, le workflow standard est trop lent. Voici
 
   ```bash
   # Exemple
-  git checkout -b hotfix/TICKET-456-fix-login-critique main
+  git checkout -b hotfix/fix-login-critique main
   ```
 
 2. **Travaillez sur la correction** et faites vos commits comme d'habitude.
 
-3. **Créez une Pull Request** de votre branche `hotfix/*` vers `main`. Le processus de validation (CI, revue) reste obligatoire mais doit être traité en priorité absolue.
+3. **Créez une Pull Request** de votre branche `hotfix/*` vers `main`. Le titre doit inclure le numéro de ticket Jira si applicable (format suggéré : `[TICKET-456] Fix critical login issue`). Le processus de validation (CI, revue) reste obligatoire mais doit être traité en priorité absolue.
 
 4. **Déployez en production** une fois la PR fusionnée dans main.
 
 5. **Rétro-portez la correction** dans les autres branches (`dev` et `test`). C'est une étape critique pour éviter les régressions et les conflits lors des prochains merges.
-
-  ```bash
-  git checkout dev
-  git pull origin dev
-  git merge main # Intègre le hotfix de main dans dev
-  git push origin dev
-  ```
