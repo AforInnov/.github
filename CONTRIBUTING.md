@@ -18,7 +18,37 @@ Avant de commencer, assurez-vous que votre environnement est correctement config
 
 ## Workflow de Développement
 
-Chaque nouvelle fonctionnalité ou correction passe par ce processus.
+Ce diagramme présente une vue d'ensemble du processus de développement de nouvelles fonctionnalités. Chaque développement de nouvelle fonctionnalité traverse ce processus.
+
+```mermaid
+gitGraph
+  commit id: "Intial commit"
+  
+  branch test
+  commit id: " "
+  
+  branch dev
+  checkout dev
+  commit id: "Existing work"
+  commit id: "  "
+  
+
+  branch feature/add-user-profile
+  checkout feature/add-user-profile
+  commit id: "feat(profile): create profile page"
+  commit id: "style(profile): adjust layout"
+  commit id: "test(profile): add unit tests"
+
+  checkout dev
+  merge feature/add-user-profile id: "PR Merge"
+  
+
+  checkout test
+  merge dev id: "Merge Dev into Test"
+
+  checkout main
+  merge test id: "Merge Test into Main"
+```
 
 ### 1. Création de la Branche
 
@@ -143,3 +173,24 @@ Pour les bugs critiques en production, le workflow standard est trop lent. Voici
 4. **Déployez en production** une fois la PR fusionnée dans main.
 
 5. **Rétro-portez la correction** dans les autres branches (`dev` et `test`). C'est une étape critique pour éviter les régressions et les conflits lors des prochains merges.
+
+Voici un diagramme illustrant le processus de hotfix :
+
+```mermaid
+gitGraph
+  commit id: " "
+  branch dev
+  checkout main
+  commit id: "  " tag: "v1.1.0"
+
+  branch hotfix/fix-critical-login
+  checkout hotfix/fix-critical-login
+  commit id: "fix(auth): resolve critical login bug"
+
+  checkout main
+  merge hotfix/fix-critical-login tag: "v1.1.1"
+  commit id: "Manual Deploy to PROD"
+
+  checkout dev
+  merge hotfix/fix-critical-login id: "Backport fix"
+```
